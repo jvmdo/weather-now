@@ -1,0 +1,34 @@
+:root {
+  /* 
+    Colors
+  */
+  --neutral-900: hsl(243, 96%, 9%);
+  --neutral-800: hsl(243, 27%, 20%);
+  --neutral-700: hsl(243, 23%, 24%);
+  --neutral-600: hsl(243, 23%, 30%);
+  --neutral-300: hsl(240, 6%, 70%);
+  --neutral-200: hsl(250, 6%, 84%);
+  --neutral: hsl(0, 0%, 100%);
+
+  --blue-500: hsl(233, 67%, 56%);
+  --blue-700: hsl(248, 70%, 36%);
+
+  --orange-500: hsl(28, 100%, 52%);
+
+  /* General */
+  --bg-primary: var(--neutral-900);
+  --text-primary: var(--neutral);
+  --accent-primary: var(--blue-500);
+  --accent-primary-dark: var(--blue-700);
+  --accent-secondary: var(--orange-500);
+
+  /* Card */
+  --card-bg: var(--neutral-800);
+  --card-title: var(--neutral-200);
+  --card-text: var(--neutral);
+  --card-text-secondary: var(--neutral-300);
+  --card-border: var(--neutral-700);
+  --card-row-bg: var(--neutral-700);
+  --card-row-border: var(--neutral-600);
+  --card-btn-bg: var(--neutral-600);
+}
