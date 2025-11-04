@@ -5,9 +5,15 @@ import { useThrottledValue } from "@tanstack/react-pacer";
 import SearchInput from "./SearchInput";
 
 async function fetcher({ queryKey }) {
-  // TODO: to query search
   const [_, city] = queryKey;
-  const endpoint = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=50&language=en&format=json`;
+  const searchParams = {
+    format: "json",
+    language: "en",
+    count: "50",
+    name: city,
+  };
+  const params = new URLSearchParams(searchParams);
+  const endpoint = `https://geocoding-api.open-meteo.com/v1/search?${params.toString()}`;
 
   const response = await fetch(endpoint);
   const data = await response.json();
@@ -19,26 +25,26 @@ async function fetcher({ queryKey }) {
   return data;
 }
 
-// TODO Mix and match those magic numbers, figure them out!
 function CitySearch() {
   const [searchTerm, setSearchTerm] = React.useState("");
+  const isFetchEnabled = searchTerm.length > 1;
+
+  // TODO: disable for local filtering, i.e, after first comma
   const [throttledSearchTerm] = useThrottledValue(searchTerm, {
     wait: 1000,
-    enabled: () => searchTerm.length > 2, // Prevent flashing empty state (why?)
+    enabled: () => isFetchEnabled, // Prevent empty state flashing (why?)
   });
-
   const [city, admin, country] = throttledSearchTerm
     .split(",")
     .map((t) => t.trim());
 
-  const { data, isPending, isFetching, error } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ["city", city],
     queryFn: fetcher,
-    enabled: city.length > 0, // Prevent fetching "" on mount
+    enabled: isFetchEnabled, // Prevent fetching "" on mount
     staleTime: 5 * 60 * 1000,
     retry: false,
   });
-
   const payload = data?.results;
 
   // TODO test without memo
@@ -71,9 +77,6 @@ function CitySearch() {
     });
   }, [fuse, city, admin, country]);
 
-  const isEmpty =
-    searchTerm.length > 0 && items.length === 0 && !(isFetching || isPending);
-
   if (error) {
     return (
       <div>
@@ -87,11 +90,11 @@ function CitySearch() {
     <search>
       <form>
         <SearchInput
-          items={searchTerm ? items : []}
-          isLoading={searchTerm.length > 0 && (isFetching || isPending)}
-          isEmpty={isEmpty}
-          throttledSetSearchTerm={setSearchTerm}
           searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          isLoading={isFetchEnabled && isPending} // Prevent loading state on mount
+          isEmpty={!isPending && items.length === 0} // Prevent empty on mount and during isLoading
+          items={isFetchEnabled ? items : []} // Clear results if input is empty
         />
         <button>Search</button>
       </form>
