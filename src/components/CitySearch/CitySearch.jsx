@@ -1,7 +1,8 @@
 import React from "react";
-import Fuse from "fuse.js";
+
 import { useQuery } from "@tanstack/react-query";
 import { useThrottledValue } from "@tanstack/react-pacer";
+import { useFuzzyFilter } from "./useFuzzyFilter";
 import SearchInput from "./SearchInput";
 
 async function fetcher({ queryKey }) {
@@ -34,48 +35,17 @@ function CitySearch() {
     wait: 1000,
     enabled: () => isFetchEnabled, // Prevent empty state flashing (why?)
   });
-  const [city, admin, country] = throttledSearchTerm
-    .split(",")
-    .map((t) => t.trim());
+  const terms = throttledSearchTerm.split(",").map((t) => t.trim());
 
+  const [city] = terms;
   const { data, isPending, error } = useQuery({
     queryKey: ["city", city],
     queryFn: fetcher,
     enabled: isFetchEnabled, // Prevent fetching "" on mount
-    staleTime: 5 * 60 * 1000,
-    retry: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
-  const payload = data?.results;
 
-  // TODO test without memo
-  const fuse = React.useMemo(
-    () =>
-      new Fuse(payload, {
-        includeScore: true,
-        useExtendedSearch: true,
-        keys: [
-          { name: "name", weight: 10 },
-          { name: "admin1" },
-          { name: "admin2" },
-          { name: "admin3" },
-          { name: "country" },
-        ],
-      }),
-    [payload]
-  );
-
-  const items = React.useMemo(() => {
-    if (!city && !admin && !country) return [];
-    return fuse.search({
-      $or: [
-        { name: `${city}` },
-        { admin1: `${admin}` },
-        { admin2: `${admin}` },
-        { admin3: `${admin}` },
-        { country: `${country}` },
-      ],
-    });
-  }, [fuse, city, admin, country]);
+  const items = useFuzzyFilter(data, terms);
 
   if (error) {
     return (
