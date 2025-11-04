@@ -5,7 +5,6 @@ import UnitMenu from "./components/UnitMenu";
 // import retry from "/icons/retry.svg";
 // import search from "/icons/search.svg";
 // import snow from "/icons/snow.webp";
-// import loading from "/icons/loading.svg";
 // import fog from "/icons/fog.webp";
 // import error from "/icons/error.svg";
 // import storm from "/icons/storm.webp";
@@ -18,10 +17,13 @@ import UnitMenu from "./components/UnitMenu";
 import logo from "/logo.svg";
 import sunny from "/icons/sunny.webp";
 import "@/lib/day";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <header>
         <div className="logo">
           <img src={logo} alt="Sun made of stack overflows" />
@@ -30,12 +32,7 @@ function App() {
       </header>
       <main>
         <h1>How's the sky looking today?</h1>
-        <search>
-          <form>
-            <CitySearch />
-            <button>Search</button>
-          </form>
-        </search>
+        <CitySearch />
         <div className="wrapper">
           <section className="current-forecast">
             <div className="hero">
@@ -107,7 +104,7 @@ function App() {
           </section>
         </div>
       </main>
-    </>
+    </QueryClientProvider>
   );
 }
 
