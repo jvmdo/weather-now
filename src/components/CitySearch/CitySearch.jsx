@@ -30,9 +30,8 @@ function CitySearch() {
   const [searchTerm, setSearchTerm] = React.useState("");
   const isFetchEnabled = searchTerm.length > 1;
 
-  // TODO: disable for local filtering, i.e, after first comma
   const [throttledSearchTerm] = useThrottledValue(searchTerm, {
-    wait: 1000,
+    wait: searchTerm.includes(",") ? 0 : 1000, // No throttle for local filtering
     enabled: () => isFetchEnabled, // Prevent empty state flashing (why?)
   });
   const terms = throttledSearchTerm.split(",").map((t) => t.trim());
