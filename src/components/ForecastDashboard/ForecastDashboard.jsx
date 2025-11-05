@@ -1,15 +1,11 @@
 import React from "react";
 
-import dayjs from "dayjs";
-import HourlyForecastSelect from "../HourlyForecastSelect";
 import { useQuery } from "@tanstack/react-query";
-import {
-  buildDailyWeather,
-  buildHourlyWeather,
-  getIconFromWeatherCode,
-} from "@/helpers";
 import { UnitsContext } from "@/contexts";
 import { stripFalsy } from "@/utils";
+import CurrentForecast from "./CurrentForecast";
+import DailyForecast from "./DailyForecast";
+import HourlyForecast from "./HourlyForecast";
 
 const fetcher = async ({ queryKey }) => {
   const [_, [latitude, longitude], unitValues] = queryKey;
@@ -47,11 +43,6 @@ function ForecastDashboard({ place, latLng }) {
     staleTime: 5 * 60 * 1000,
   });
 
-  const currentWeather = data?.current;
-  const icon = getIconFromWeatherCode(currentWeather?.weather_code);
-  const dailyWeather = buildDailyWeather(data?.daily);
-  const hourlyWeather = buildHourlyWeather(data?.hourly);
-
   if (isPending) {
     return <div>Loading...</div>;
   }
@@ -62,57 +53,9 @@ function ForecastDashboard({ place, latLng }) {
 
   return (
     <div className="wrapper">
-      <section className="current-forecast">
-        <div className="hero">
-          <header>
-            <h2>
-              {place[0]}, {place[1]}
-            </h2>
-            <time dateTime={currentWeather.time}>
-              {dayjs(currentWeather.time).format("dddd, MMM d, YYYY")}
-            </time>
-          </header>
-          <img src={`/icons/${icon}.webp`} alt={`weather condition: ${icon}`} />
-          <p>{currentWeather.temperature_2m}&deg;</p>
-        </div>
-        <div className="variables">
-          <div>Feels like {currentWeather.apparent_temperature}&deg;</div>
-          <div>Humidity {currentWeather.relative_humidity_2m}%</div>
-          <div>Wind {currentWeather.wind_speed_10m}[unit]</div>
-          <div>Precipitation {currentWeather.precipitation}[unit]</div>
-        </div>
-      </section>
-      <section className="daily-forecast">
-        <h3>Daily forecast</h3>
-        {dailyWeather.map((weather) => (
-          <div key={weather.id} className="daily-forecast-card">
-            {weather.day}
-            <img
-              src={`/icons/${weather.icon}.webp`}
-              alt={`weather condition: ${icon}`}
-            />
-            {weather.temperature_max}&deg;
-            {weather.temperature_min}&deg;
-          </div>
-        ))}
-      </section>
-      <section className="hourly-forecast">
-        {/* TODO: Scrollable container */}
-        <header>
-          <h3>Hourly forecast</h3>
-          <HourlyForecastSelect />
-        </header>
-        {hourlyWeather["Wednesday"]?.map((weather) => (
-          <div key={weather.id} className="hourly-forecast-card">
-            <img
-              src={`/icons/${weather.icon}.webp`}
-              alt={`weather condition: ${icon}`}
-            />
-            {weather.hour}
-            {weather.temperature}&deg;
-          </div>
-        ))}
-      </section>
+      <CurrentForecast place={place} data={data.current} />
+      <DailyForecast data={data.daily} />
+      <HourlyForecast data={data.hourly} />
     </div>
   );
 }
