@@ -16,16 +16,16 @@
   --orange-500: hsl(28, 100%, 52%);
 
   /* General */
-  --bg-primary: var(--neutral-900);
-  --text-primary: var(--neutral);
+  --bg: var(--neutral-900);
+  --text: var(--neutral);
   --accent-primary: var(--blue-500);
-  --accent-primary-dark: var(--blue-700);
+  --accent-dark: var(--blue-700);
   --accent-secondary: var(--orange-500);
 
   /* Card */
   --card-bg: var(--neutral-800);
   --card-title: var(--neutral-200);
-  --card-text: var(--neutral);
+  --card-text-primary: var(--neutral);
   --card-text-secondary: var(--neutral-300);
   --card-border: var(--neutral-700);
   --card-row-bg: var(--neutral-700);

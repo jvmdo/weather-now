@@ -11,6 +11,7 @@ import check from "/icons/checkmark.svg";
 import cog from "/icons/units.svg";
 import chevronDown from "/icons/dropdown.svg";
 import { UnitsContext } from "@/contexts";
+import styles from "./UnitMenu.module.css";
 
 function UnitMenu() {
   const { unitSystem, flipUnitSystem, unitValues } =
@@ -19,7 +20,7 @@ function UnitMenu() {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button>
+        <button className={styles.trigger}>
           <img src={cog} alt="cog" />
           Units
           <img src={chevronDown} alt="chevron down" />
@@ -27,16 +28,24 @@ function UnitMenu() {
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
-        <DropdownMenu.Content style={{ backgroundColor: "grey" }}>
-          <DropdownMenu.Item>
+        <DropdownMenu.Content className={styles.content}>
+          <DropdownMenu.Item className={styles.switch} asChild={true}>
             <button onClick={flipUnitSystem}>
               Switch to {unitSystems[unitSystem]}
             </button>
           </DropdownMenu.Item>
-          <DropdownMenu.Label>Temperature</DropdownMenu.Label>
+
+          <DropdownMenu.Label className={styles.label}>
+            Temperature
+          </DropdownMenu.Label>
           <DropdownMenu.RadioGroup value={unitValues.temperature}>
             {temperatureUnits.map(({ id, value, label }) => (
-              <DropdownMenu.RadioItem key={id} value={value} disabled={true}>
+              <DropdownMenu.RadioItem
+                key={id}
+                value={value}
+                disabled={true}
+                className={styles.item}
+              >
                 {label}
                 <DropdownMenu.ItemIndicator>
                   <img src={check} alt="checkmark" />
@@ -45,12 +54,19 @@ function UnitMenu() {
             ))}
           </DropdownMenu.RadioGroup>
 
-          <DropdownMenu.Separator />
+          <DropdownMenu.Separator className={styles.separator} />
 
-          <DropdownMenu.Label>Wind Speed</DropdownMenu.Label>
+          <DropdownMenu.Label className={styles.label}>
+            Wind Speed
+          </DropdownMenu.Label>
           <DropdownMenu.RadioGroup value={unitValues.windSpeed}>
             {windSpeedUnits.map(({ id, value, label }) => (
-              <DropdownMenu.RadioItem key={id} value={value} disabled={true}>
+              <DropdownMenu.RadioItem
+                key={id}
+                value={value}
+                disabled={true}
+                className={styles.item}
+              >
                 {label}
                 <DropdownMenu.ItemIndicator>
                   <img src={check} alt="checkmark" />
@@ -59,12 +75,19 @@ function UnitMenu() {
             ))}
           </DropdownMenu.RadioGroup>
 
-          <DropdownMenu.Separator />
+          <DropdownMenu.Separator className={styles.separator} />
 
-          <DropdownMenu.Label>Precipitation</DropdownMenu.Label>
+          <DropdownMenu.Label className={styles.label}>
+            Precipitation
+          </DropdownMenu.Label>
           <DropdownMenu.RadioGroup value={unitValues.precipitation}>
             {precipitationUnits.map(({ id, value, label }) => (
-              <DropdownMenu.RadioItem key={id} value={value} disabled={true}>
+              <DropdownMenu.RadioItem
+                key={id}
+                value={value}
+                disabled={true}
+                className={styles.item}
+              >
                 {label}
                 <DropdownMenu.ItemIndicator>
                   <img src={check} alt="checkmark" />
