@@ -4,23 +4,17 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   precipitationUnits,
   temperatureUnits,
-  units,
+  unitSystems,
   windSpeedUnits,
 } from "@/constants";
 import check from "/icons/checkmark.svg";
 import cog from "/icons/units.svg";
 import chevronDown from "/icons/dropdown.svg";
+import { UnitsContext } from "@/contexts";
 
 function UnitMenu() {
-  const [unit, setUnit] = React.useState(0);
-
-  const handleFlipUnit = () => setUnit(1 - unit);
-
-  const values = {
-    temperature: temperatureUnits[unit].value,
-    windSpeed: windSpeedUnits[unit].value,
-    precipitation: precipitationUnits[unit].value,
-  };
+  const { unitSystem, flipUnitSystem, unitValues } =
+    React.useContext(UnitsContext);
 
   return (
     <DropdownMenu.Root>
@@ -35,13 +29,12 @@ function UnitMenu() {
       <DropdownMenu.Portal>
         <DropdownMenu.Content style={{ backgroundColor: "grey" }}>
           <DropdownMenu.Item>
-            <button onClick={handleFlipUnit}>Switch to {units[unit]}</button>
+            <button onClick={flipUnitSystem}>
+              Switch to {unitSystems[unitSystem]}
+            </button>
           </DropdownMenu.Item>
           <DropdownMenu.Label>Temperature</DropdownMenu.Label>
-          <DropdownMenu.RadioGroup
-            value={values.temperature}
-            // onValueChange={setTemperature}
-          >
+          <DropdownMenu.RadioGroup value={unitValues.temperature}>
             {temperatureUnits.map(({ id, value, label }) => (
               <DropdownMenu.RadioItem key={id} value={value} disabled={true}>
                 {label}
@@ -55,10 +48,7 @@ function UnitMenu() {
           <DropdownMenu.Separator />
 
           <DropdownMenu.Label>Wind Speed</DropdownMenu.Label>
-          <DropdownMenu.RadioGroup
-            value={values.windSpeed}
-            // onValueChange={setWindSpeed}
-          >
+          <DropdownMenu.RadioGroup value={unitValues.windSpeed}>
             {windSpeedUnits.map(({ id, value, label }) => (
               <DropdownMenu.RadioItem key={id} value={value} disabled={true}>
                 {label}
@@ -72,10 +62,7 @@ function UnitMenu() {
           <DropdownMenu.Separator />
 
           <DropdownMenu.Label>Precipitation</DropdownMenu.Label>
-          <DropdownMenu.RadioGroup
-            value={values.precipitation}
-            // onValueChange={setPrecipitation}
-          >
+          <DropdownMenu.RadioGroup value={unitValues.precipitation}>
             {precipitationUnits.map(({ id, value, label }) => (
               <DropdownMenu.RadioItem key={id} value={value} disabled={true}>
                 {label}

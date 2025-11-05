@@ -8,22 +8,24 @@ import {
   buildHourlyWeather,
   getIconFromWeatherCode,
 } from "@/helpers";
+import { UnitsContext } from "@/contexts";
+import { stripFalsy } from "@/utils";
 
 const fetcher = async ({ queryKey }) => {
-  const [_, [latitude, longitude]] = queryKey;
+  const [_, [latitude, longitude], unitValues] = queryKey;
   const searchParams = {
     latitude,
     longitude,
-    wind_speed_unit: "mph",
-    temperature_unit: "fahrenheit",
-    precipitation_unit: "inch",
+    wind_speed_unit: unitValues.windSpeed,
+    temperature_unit: unitValues.temperature,
+    precipitation_unit: unitValues.precipitation,
     current:
       "temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,precipitation,apparent_temperature",
     daily: "weather_code,temperature_2m_max,temperature_2m_min",
     hourly: "temperature_2m,weather_code",
     timezone: "auto",
   };
-  const params = new URLSearchParams(searchParams);
+  const params = new URLSearchParams(stripFalsy(searchParams));
   const endpoint = `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
 
   const response = await fetch(endpoint);
@@ -37,10 +39,9 @@ const fetcher = async ({ queryKey }) => {
 };
 
 function ForecastDashboard({ place, latLng }) {
-  // TODO: units context
-
+  const { unitValues } = React.useContext(UnitsContext);
   const { data, isPending, error } = useQuery({
-    queryKey: ["city-weather", latLng],
+    queryKey: ["city-weather", latLng, unitValues],
     queryFn: fetcher,
     enabled: latLng[0] + latLng[1] !== 0,
     staleTime: 5 * 60 * 1000,

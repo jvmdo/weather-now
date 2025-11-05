@@ -15,3 +15,9 @@ export function arrayChunk(arr, numberOfChunks) {
       : acc;
   }, []);
 }
+
+export function stripFalsy(obj = {}) {
+  return Object.fromEntries(
+    Array.from(Object.entries(obj)).filter(([, value]) => Boolean(value))
+  );
+}

@@ -1,23 +1,25 @@
 /* 
-  Indices must match
+  [unitSystems] and [xyzUnits] indices must match
+  Empty values are API defaults. Search params should not include them
 */
-export const units = ["Metric", "Imperial"];
+export const unitSystems = ["Metric", "Imperial"];
 
 export const temperatureUnits = [
-  { id: crypto.randomUUID(), value: "c", label: "Celsius (°C)" },
-  { id: crypto.randomUUID(), value: "f", label: "Fahrenheit (°F)" },
+  { id: crypto.randomUUID(), value: "", label: "Celsius (°C)" },
+  { id: crypto.randomUUID(), value: "fahrenheit", label: "Fahrenheit (°F)" },
 ];
 
 export const windSpeedUnits = [
-  { id: crypto.randomUUID(), value: "km/h", label: "km/h" },
+  { id: crypto.randomUUID(), value: "", label: "km/h" },
   { id: crypto.randomUUID(), value: "mph", label: "mph" },
 ];
 
 export const precipitationUnits = [
-  { id: crypto.randomUUID(), value: "mm", label: "Millimeters (mm)" },
-  { id: crypto.randomUUID(), value: "in", label: "Inches (in)" },
+  { id: crypto.randomUUID(), value: "", label: "Millimeters (mm)" },
+  { id: crypto.randomUUID(), value: "inch", label: "Inches (in)" },
 ];
 
+//? Imaginary [1, 2] (should be [1,3]) since I did not find an appropriate range for cloudy
 export const weatherCodeToIcon = new Map([
   [[0, 0], "sunny"], // Clear sky
   [[1, 2], "partly-cloudy"], // Mainly clear, partly cloudy, and overcast

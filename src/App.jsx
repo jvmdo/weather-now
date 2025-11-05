@@ -10,20 +10,23 @@ import logo from "/logo.svg";
 import "@/lib/day";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import WeatherSearch from "./components/WeatherSearch";
+import UnitsContextProvider from "./contexts/UnitsContext";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <header>
-        <div className="logo">
-          <img src={logo} alt="Sun made of stack overflows" />
-        </div>
-        <UnitMenu />
-      </header>
-      <WeatherSearch />
-    </QueryClientProvider>
+    <UnitsContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <header>
+          <div className="logo">
+            <img src={logo} alt="Sun made of stack overflows" />
+          </div>
+          <UnitMenu />
+        </header>
+        <WeatherSearch />
+      </QueryClientProvider>
+    </UnitsContextProvider>
   );
 }
 
