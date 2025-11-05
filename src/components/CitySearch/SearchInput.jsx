@@ -4,7 +4,14 @@ import { Command, useCommandState } from "cmdk";
 
 import loadingIcon from "/icons/loading.svg";
 
-function SearchInput({ searchTerm, setSearchTerm, isLoading, isEmpty, items }) {
+function SearchInput({
+  searchTerm,
+  setSearchTerm,
+  isLoading,
+  isEmpty,
+  items,
+  onSelect,
+}) {
   const inputRef = React.useRef(null);
   const [page, setPage] = React.useState(10);
 
@@ -16,6 +23,7 @@ function SearchInput({ searchTerm, setSearchTerm, isLoading, isEmpty, items }) {
     setPage((currentPage) => currentPage + 10);
   };
 
+  // TODO: arrow nagivation not working
   return (
     <Command shouldFilter={false} loop={false}>
       <Command.Input
@@ -37,10 +45,7 @@ function SearchInput({ searchTerm, setSearchTerm, isLoading, isEmpty, items }) {
         {isEmpty && <Command.Empty>No results found.</Command.Empty>}
 
         {items.slice(0, page).map(({ item: city }) => (
-          <Command.Item
-            key={city.id}
-            onSelect={(value) => console.log("Selected", value)}
-          >
+          <Command.Item key={city.id} onSelect={() => onSelect(city)}>
             {`${city.name}, ${city.admin1 ?? "-"}, ${city.country}`}
           </Command.Item>
         ))}

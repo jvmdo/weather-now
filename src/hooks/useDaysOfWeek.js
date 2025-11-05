@@ -1,12 +1,11 @@
 import React from "react";
 import dayjs from "dayjs";
+import { buildDaysOfWeek } from "@/utils";
 
 function useDaysOfWeek(startDay = dayjs().format("dddd"), daysCount = 7) {
   const daysOfWeek = React.useMemo(() => {
-    return Array.from({ length: daysCount }, (_, d) =>
-      dayjs().add(d, "day").format("dddd")
-    );
-    // [startDay] will change, but the linter is not aware of that
+    return buildDaysOfWeek();
+    // [startDay] will change at midnight, but the linter is not aware
     // eslint-disable-next-line
   }, [startDay, daysCount]);
 

@@ -26,7 +26,7 @@ async function fetcher({ queryKey }) {
   return data;
 }
 
-function CitySearch() {
+function CitySearch({ setLocation }) {
   const [searchTerm, setSearchTerm] = React.useState("");
   const isFetchEnabled = searchTerm.length > 1;
 
@@ -44,6 +44,18 @@ function CitySearch() {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
+  const handleSelectedTerm = (city) => {
+    setLocation({
+      place: [city.name, city.country],
+      latLng: [city.latitude, city.longitude],
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Focus on input + tooltip
+  };
+
   const items = useFuzzyFilter(data, terms);
 
   if (error) {
@@ -57,13 +69,14 @@ function CitySearch() {
 
   return (
     <search>
-      <form>
+      <form onSubmit={handleSubmit}>
         <SearchInput
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           isLoading={isFetchEnabled && isPending} // Prevent loading state on mount
           isEmpty={!isPending && items.length === 0} // Prevent empty on mount and during isLoading
           items={isFetchEnabled ? items : []} // Clear results if input is empty
+          onSelect={handleSelectedTerm}
         />
         <button>Search</button>
       </form>
