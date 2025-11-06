@@ -1,0 +1,82 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: center;
+  gap: 1rem;
+
+  border-radius: 1rem;
+  padding-block: 2rem 3.5rem;
+  padding-inline: 1.5rem;
+
+  background-image: url(/public/images/bg-today-small.svg);
+  background-repeat: no-repeat;
+  background-size: cover 100%;
+}
+
+.hero header {
+  flex: 3 1 300px;
+  text-align: center;
+}
+
+.hero header h2 {
+  font-size: 1.625rem;
+  line-height: 2;
+  font-weight: 700;
+}
+
+.hero header time {
+  color: var(--card-title);
+  font-size: 1.125rem;
+}
+
+.hero div {
+  flex: 1 1 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero img {
+  width: 8rem;
+}
+
+.hero strong {
+  font-size: 6rem;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.variables {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem;
+
+  font-weight: 300;
+}
+
+.variables > div {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0.5rem;
+  padding: 1.125rem;
+}
+
+.variables > div p {
+  color: var(--card-title);
+  font-size: 1.25rem;
+  margin-block-end: 1.5rem;
+}
+
+.variables > div span {
+  font-size: 2rem;
+  line-height: 1;
+  white-space: nowrap;
+}
