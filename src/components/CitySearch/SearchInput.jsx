@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Command, useCommandState } from "cmdk";
-
 import loadingIcon from "/icons/loading.svg";
+import styles from "./SearchInput.module.css";
 
 function SearchInput({
   searchTerm,
@@ -14,46 +14,68 @@ function SearchInput({
 }) {
   const inputRef = React.useRef(null);
   const [page, setPage] = React.useState(10);
+  const [isExpanded, setIsExpanded] = React.useState(false);
 
   React.useEffect(() => {
-    inputRef?.current.focus();
+    const inputNode = inputRef?.current;
+    const expandList = () => setIsExpanded(true);
+    const collapseList = () => setTimeout(() => setIsExpanded(false), 100);
+
+    inputNode.addEventListener("focus", expandList);
+    inputNode.addEventListener("blur", collapseList);
+    inputNode.addEventListener("keydown", expandList);
+    return () => {
+      inputNode.removeEventListener("onfocus", expandList);
+      inputNode.removeEventListener("blur", collapseList);
+      inputNode.removeEventListener("keydown", expandList);
+    };
   }, []);
 
   const incrementPagination = () => {
     setPage((currentPage) => currentPage + 10);
   };
 
-  // TODO: arrow nagivation not working
+  // ! Select restores scroll position to start
   return (
-    <Command shouldFilter={false} loop={false}>
+    <Command shouldFilter={false} className={styles.command}>
       <Command.Input
         ref={inputRef}
+        className={styles.input}
         placeholder="New York, Idaho, United States"
         title="Search cities. For finer, include state and country separated by a comma."
         value={searchTerm}
         onValueChange={setSearchTerm}
       />
 
-      <Command.List>
-        {isLoading && (
-          <Command.Loading>
-            <img src={loadingIcon} alt="" />
-            Search in progress
-          </Command.Loading>
-        )}
+      {isExpanded && (
+        <Command.List>
+          {isLoading && (
+            <Command.Loading>
+              <img src={loadingIcon} alt="" />
+              Search in progress
+            </Command.Loading>
+          )}
 
-        {isEmpty && <Command.Empty>No results found.</Command.Empty>}
+          {isEmpty && <Command.Empty>No search result found.</Command.Empty>}
 
-        {items.slice(0, page).map(({ item: city }) => (
-          <Command.Item key={city.id} onSelect={() => onSelect(city)}>
-            {`${city.name}, ${city.admin1 ?? "-"}, ${city.country}`}
-          </Command.Item>
-        ))}
-      </Command.List>
-      <PaginationButton
-        itemsLength={items.length}
-        incrementPagination={incrementPagination}
-      />
+          {items.slice(0, page).map(({ item: city }) => (
+            <Command.Item
+              key={city.id}
+              value={String(city.id)}
+              onSelect={() => {
+                onSelect(city);
+                setIsExpanded(false);
+              }}
+            >
+              {`${city.name}, ${city.admin1 ?? "-"}, ${city.country}`}
+            </Command.Item>
+          ))}
+          <PaginationButton
+            itemsLength={items.length}
+            incrementPagination={incrementPagination}
+          />
+        </Command.List>
+      )}
     </Command>
   );
 }

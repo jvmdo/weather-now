@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useThrottledValue } from "@tanstack/react-pacer";
 import { useFuzzyFilter } from "./useFuzzyFilter";
 import SearchInput from "./SearchInput";
+import styles from "./CitySearch.module.css";
 
 async function fetcher({ queryKey }) {
   const [_, city] = queryKey;
@@ -27,7 +28,8 @@ async function fetcher({ queryKey }) {
 }
 
 function CitySearch({ setLocation }) {
-  const [searchTerm, setSearchTerm] = React.useState("");
+  // TODO: handle empty strings
+  const [searchTerm, setSearchTerm] = React.useState("bocoio");
   const isFetchEnabled = searchTerm.length > 1;
 
   const [throttledSearchTerm] = useThrottledValue(searchTerm, {
@@ -68,7 +70,7 @@ function CitySearch({ setLocation }) {
   }
 
   return (
-    <search>
+    <search className={styles.search}>
       <form onSubmit={handleSubmit}>
         <SearchInput
           searchTerm={searchTerm}
