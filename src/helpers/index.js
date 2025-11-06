@@ -27,6 +27,8 @@ export function buildDailyWeather(data) {
 }
 
 export function buildHourlyWeather(data) {
+  if (!data) return {};
+
   const { time, weather_code, temperature_2m } = data;
 
   // Chunk to split the array in 7, each for a day of the week

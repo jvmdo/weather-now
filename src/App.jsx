@@ -1,5 +1,4 @@
 // import retry from "/icons/retry.svg";
-// import search from "/icons/search.svg";
 // import error from "/icons/error.svg";
 // import bgLarge from "/images/bg-today-large.svg";
 import "@/lib/day";
@@ -10,7 +9,6 @@ import Header from "./components/Header";
 
 const queryClient = new QueryClient();
 
-// TODO: Verify text font weights
 function App() {
   return (
     <UnitsContextProvider>

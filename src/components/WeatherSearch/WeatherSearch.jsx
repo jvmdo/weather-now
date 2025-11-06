@@ -5,8 +5,8 @@ import styles from "./WeatherSearch.module.css";
 
 function WeatherSearch() {
   const [location, setLocation] = React.useState({
-    place: ["", ""],
-    latLng: [0, 0],
+    place: ["Xique-Xique", "Brazil"],
+    latLng: [-9.51667, -43.6],
   });
 
   return (

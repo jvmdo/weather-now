@@ -6,13 +6,12 @@ import HourlyForecastSelect from "../HourlyForecastSelect";
 import { buildHourlyWeather } from "@/helpers";
 import styles from "./HourlyForecast.module.css";
 
-function HourlyForecast({ data }) {
+function HourlyForecast({ data, isLoading }) {
   const daysOfWeek = useDaysOfWeek();
   const [day, setDay] = React.useState(daysOfWeek[0]);
 
   const hourlyData = buildHourlyWeather(data);
 
-  // TODO: Scrollable container
   return (
     <section className={styles.wrapper}>
       <header>
@@ -21,18 +20,23 @@ function HourlyForecast({ data }) {
           day={day}
           setDay={setDay}
           daysOfWeek={daysOfWeek}
+          isLoading={isLoading}
         />
       </header>
       <ScrollArea.Root className={styles.root}>
         <ScrollArea.Viewport className={styles.viewport}>
           {hourlyData[day]?.map((weather) => (
             <div key={weather.id} className={styles.card}>
-              <img
-                src={`/icons/${weather.icon}.webp`}
-                alt={`weather condition: ${weather.icon}`}
-              />
-              <span>{weather.hour}</span>
-              <span>{weather.temperature}&deg;</span>
+              {!isLoading && (
+                <>
+                  <img
+                    src={`/icons/${weather.icon}.webp`}
+                    alt={`weather condition: ${weather.icon}`}
+                  />
+                  <span>{weather.hour}</span>
+                  <span>{weather.temperature}&deg;</span>
+                </>
+              )}
             </div>
           ))}
         </ScrollArea.Viewport>

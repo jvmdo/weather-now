@@ -6,6 +6,7 @@ import { stripFalsy } from "@/utils";
 import CurrentForecast from "./CurrentForecast";
 import DailyForecast from "./DailyForecast";
 import HourlyForecast from "./HourlyForecast";
+import styles from "./ForecastDashboard.module.css";
 
 const fetcher = async ({ queryKey }) => {
   const [_, [latitude, longitude], unitValues] = queryKey;
@@ -24,6 +25,8 @@ const fetcher = async ({ queryKey }) => {
   const params = new URLSearchParams(stripFalsy(searchParams));
   const endpoint = `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
 
+  // Intentional delay for loading state to show up
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const response = await fetch(endpoint);
   const data = await response.json();
 
@@ -39,23 +42,24 @@ function ForecastDashboard({ place, latLng }) {
   const { data, isPending, error } = useQuery({
     queryKey: ["city-weather", latLng, unitValues],
     queryFn: fetcher,
-    enabled: latLng[0] + latLng[1] !== 0,
+    // enabled: latLng[0] + latLng[1] !== 0,
     staleTime: 5 * 60 * 1000,
   });
 
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
+    console.error(error);
     return <div>Error...</div>;
   }
 
   return (
-    <div className="wrapper">
-      <CurrentForecast place={place} data={data.current} />
-      <DailyForecast data={data.daily} />
-      <HourlyForecast data={data.hourly} />
+    <div className={styles.dashboard}>
+      <CurrentForecast
+        place={place}
+        data={data?.current}
+        isLoading={isPending}
+      />
+      <DailyForecast data={data?.daily} isLoading={isPending} />
+      <HourlyForecast data={data?.hourly} isLoading={isPending} />
     </div>
   );
 }

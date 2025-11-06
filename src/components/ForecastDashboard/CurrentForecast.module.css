@@ -12,6 +12,7 @@
   gap: 1rem;
 
   border-radius: 1rem;
+  height: 17.5rem;
   padding-block: 2rem 3.5rem;
   padding-inline: 1.5rem;
 
@@ -54,6 +55,21 @@
   font-style: italic;
 }
 
+.hero_skeleton {
+  composes: hero;
+  align-items: center;
+  background: var(--card-bg);
+  color: var(--card-title);
+  padding: 0;
+  position: relative;
+}
+
+.hero_skeleton img {
+  animation: rotation 1s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
+  width: 7rem;
+  position: absolute;
+}
+
 .variables {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
@@ -67,6 +83,8 @@
   border: 1px solid var(--card-border);
   border-radius: 0.5rem;
   padding: 1.125rem;
+  height: 7.5rem;
+  /* max-width: 11.25rem; */
 }
 
 .variables > div p {
@@ -79,4 +97,20 @@
   font-size: 2rem;
   line-height: 1;
   white-space: nowrap;
+}
+
+.variables span[data-loading="true"] {
+  display: inline-block;
+  border: 1px solid grey;
+  color: var(--card-title);
+  width: 1rem;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -99,4 +99,5 @@ body {
   min-height: 100vh;
   color: var(--text);
   background-color: var(--bg);
+  padding: 1rem;
 }

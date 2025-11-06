@@ -78,6 +78,7 @@
   font-size: 1.5rem;
   font-weight: 300;
 
+  height: 3.75rem;
   margin-inline: var(--padding-inline);
   padding: 1rem;
 }
