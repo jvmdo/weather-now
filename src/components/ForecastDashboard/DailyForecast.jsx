@@ -1,22 +1,27 @@
 import { buildDailyWeather } from "@/helpers";
+import styles from "./DailyForecast.module.css";
 
 function DailyForecast({ data }) {
   const dailyData = buildDailyWeather(data);
 
   return (
-    <section className="daily-forecast">
+    <section className={styles.wrapper}>
       <h3>Daily forecast</h3>
-      {dailyData.map((weather) => (
-        <div key={weather.id} className="daily-forecast-card">
-          {weather.day}
-          <img
-            src={`/icons/${weather.icon}.webp`}
-            alt={`weather condition: ${weather.icon}`}
-          />
-          {weather.temperature_max}&deg;
-          {weather.temperature_min}&deg;
-        </div>
-      ))}
+      <div className={styles.cards}>
+        {dailyData.map((weather) => (
+          <div key={weather.id} className={styles.card}>
+            <span>{weather.day}</span>
+            <img
+              src={`/icons/${weather.icon}.webp`}
+              alt={`weather condition: ${weather.icon}`}
+            />
+            <div className={styles.temps}>
+              <span>{weather.temperature_max}&deg;</span>
+              <span>{weather.temperature_min}&deg;</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

@@ -17,10 +17,17 @@ export default function UnitsContextProvider({ children }) {
     precipitation: precipitationUnits[unitSystem].value,
   };
 
+  const unitShorts = {
+    temperature: temperatureUnits[unitSystem].value,
+    windSpeed: windSpeedUnits[unitSystem].label,
+    precipitation: precipitationUnits[unitSystem].short,
+  };
+
   const contextValue = {
     unitSystem,
     flipUnitSystem,
     unitValues,
+    unitShorts,
   };
 
   return <UnitsContext value={contextValue}>{children}</UnitsContext>;

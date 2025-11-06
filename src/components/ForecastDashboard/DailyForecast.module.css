@@ -1,0 +1,35 @@
+.wrapper h3 {
+  font-size: 1.25rem;
+  font-weight: normal;
+  margin-block-end: 1rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  border: 1px solid var(--card-border);
+
+  padding: 1rem 0.5rem;
+}
+
+.card > img {
+  width: 4rem;
+}
+
+.card > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}

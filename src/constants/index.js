@@ -15,8 +15,13 @@ export const windSpeedUnits = [
 ];
 
 export const precipitationUnits = [
-  { id: crypto.randomUUID(), value: "", label: "Millimeters (mm)" },
-  { id: crypto.randomUUID(), value: "inch", label: "Inches (in)" },
+  {
+    id: crypto.randomUUID(),
+    value: "",
+    label: "Millimeters (mm)",
+    short: "mm",
+  },
+  { id: crypto.randomUUID(), value: "inch", label: "Inches (in)", short: "in" },
 ];
 
 //? Imaginary [1, 2] (should be [1,3]) since I did not find an appropriate range for cloudy
