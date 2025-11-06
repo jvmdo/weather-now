@@ -1,8 +1,10 @@
 import React from "react";
 
+import * as ScrollArea from "@radix-ui/react-scroll-area";
 import useDaysOfWeek from "@/hooks/useDaysOfWeek";
 import HourlyForecastSelect from "../HourlyForecastSelect";
 import { buildHourlyWeather } from "@/helpers";
+import styles from "./HourlyForecast.module.css";
 
 function HourlyForecast({ data }) {
   const daysOfWeek = useDaysOfWeek();
@@ -12,7 +14,7 @@ function HourlyForecast({ data }) {
 
   // TODO: Scrollable container
   return (
-    <section className="hourly-forecast">
+    <section className={styles.wrapper}>
       <header>
         <h3>Hourly forecast</h3>
         <HourlyForecastSelect
@@ -21,16 +23,26 @@ function HourlyForecast({ data }) {
           daysOfWeek={daysOfWeek}
         />
       </header>
-      {hourlyData[day]?.map((weather) => (
-        <div key={weather.id} className="hourly-forecast-card">
-          <img
-            src={`/icons/${weather.icon}.webp`}
-            alt={`weather condition: ${weather.icon}`}
-          />
-          {weather.hour}
-          {weather.temperature}&deg;
-        </div>
-      ))}
+      <ScrollArea.Root className={styles.root}>
+        <ScrollArea.Viewport className={styles.viewport}>
+          {hourlyData[day]?.map((weather) => (
+            <div key={weather.id} className={styles.card}>
+              <img
+                src={`/icons/${weather.icon}.webp`}
+                alt={`weather condition: ${weather.icon}`}
+              />
+              <span>{weather.hour}</span>
+              <span>{weather.temperature}&deg;</span>
+            </div>
+          ))}
+        </ScrollArea.Viewport>
+        <ScrollArea.Scrollbar
+          orientation="vertical"
+          className={styles.scrollbar}
+        >
+          <ScrollArea.Thumb className={styles.thumb} />
+        </ScrollArea.Scrollbar>
+      </ScrollArea.Root>
     </section>
   );
 }

@@ -1,0 +1,95 @@
+.wrapper {
+  background-color: var(--card-bg);
+  border-radius: 1rem;
+
+  padding-block: 1rem;
+  --padding-inline: 1rem;
+}
+
+.wrapper header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-block-end: 1rem;
+  padding-inline: var(--padding-inline);
+}
+
+.wrapper header h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.root {
+  height: 37rem;
+  overflow: hidden;
+}
+
+.viewport {
+  width: 100%;
+  height: 100%;
+}
+
+.scrollbar {
+  display: flex;
+
+  padding: 2px;
+  width: 8px;
+
+  user-select: none; /* ensures no selection */
+  touch-action: none; /* disable browser handling of all panning and zooming gestures on touch devices */
+}
+
+.thumb {
+  flex: 1;
+  position: relative;
+
+  background-color: var(--card-btn-bg);
+  border-radius: 5rem;
+
+  &:is(:hover, :active) {
+    background-color: hsl(from var(--card-btn-bg) h s calc(l + 10));
+  }
+
+  /* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 0.5rem;
+
+  background-color: var(--card-row-bg);
+  border: 1px solid var(--card-row-border);
+  border-radius: 0.5rem;
+
+  font-size: 1.5rem;
+  font-weight: 300;
+
+  margin-inline: var(--padding-inline);
+  padding: 1rem;
+}
+
+.card img {
+  width: 3rem;
+}
+
+.card:not(:last-child) {
+  margin-block-end: 1rem;
+}
+
+.card span:last-child {
+  margin-inline-start: auto;
+}
