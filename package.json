@@ -12,6 +12,7 @@
     "test": "vitest --environment jsdom"
   },
   "dependencies": {
+    "@base-ui-components/react": "^1.0.0-beta.4",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-select": "^2.2.6",
@@ -20,6 +21,7 @@
     "cmdk": "^1.1.1",
     "dayjs": "^1.11.18",
     "fuse.js": "^7.1.0",
+    "match-sorter": "^8.1.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-error-boundary": "^6.0.0"

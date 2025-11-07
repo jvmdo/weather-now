@@ -97,4 +97,5 @@ h6 {
 body {
   color: var(--text);
   background-color: var(--bg);
+  position: relative;
 }

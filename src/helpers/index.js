@@ -1,6 +1,7 @@
 import { weatherCodeToIcon } from "@/constants";
 import { arrayChunk, buildDaysOfWeek } from "@/utils";
 import dayjs from "dayjs";
+import { matchSorter } from "match-sorter";
 
 export function getIconFromWeatherCode(code) {
   const pairs = Array.from(weatherCodeToIcon);
@@ -61,4 +62,36 @@ export function buildHourlyWeather(data) {
   ]);
 
   return Object.fromEntries(entries);
+}
+
+export function extractLocationTerms(termStr) {
+  const terms = termStr.split(",").map((t) => t.trim());
+  return {
+    name: terms[0],
+    admin1: terms[1],
+    country: terms[2],
+  };
+}
+
+export function formatLocationTerms(city) {
+  return `${city?.name}, ${city?.admin1 ?? "-"}, ${city?.country}`;
+}
+
+export function fuzzyFilter(item, query) {
+  if (!query) {
+    return true;
+  }
+
+  const { value: city } = item;
+  const terms = query.split(",").map((term) => term.trim());
+
+  const result = terms.reduce(
+    (acc, term) =>
+      matchSorter(acc, term, {
+        keys: ["name", "admin1", "country"],
+      }),
+    [city]
+  );
+
+  return result.length > 0;
 }
