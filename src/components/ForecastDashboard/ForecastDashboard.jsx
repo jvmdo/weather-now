@@ -25,8 +25,12 @@ const fetcher = async ({ queryKey }) => {
   const params = new URLSearchParams(stripFalsy(searchParams));
   const endpoint = `https://api.open-meteo.com/v1/forecast?${params.toString()}`;
 
-  // Intentional delay for loading state to show up
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  // For loading or error states to show up
+  await new Promise((resolve, reject) =>
+    setTimeout(() => {
+      Math.random() > 0.2 ? resolve("Saul Goodman") : reject("Fake error");
+    }, 1000)
+  );
   const response = await fetch(endpoint);
   const data = await response.json();
 
@@ -39,17 +43,14 @@ const fetcher = async ({ queryKey }) => {
 
 function ForecastDashboard({ place, latLng }) {
   const { unitValues } = React.useContext(UnitsContext);
-  const { data, isPending, error } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["city-weather", latLng, unitValues],
     queryFn: fetcher,
-    // enabled: latLng[0] + latLng[1] !== 0,
     staleTime: 5 * 60 * 1000,
+    retry: false,
+    throwOnError: true,
+    // enabled: latLng[0] + latLng[1] !== 0,
   });
-
-  if (error) {
-    console.error(error);
-    return <div>Error...</div>;
-  }
 
   return (
     <div className={styles.dashboard}>

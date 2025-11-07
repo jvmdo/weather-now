@@ -1,20 +1,30 @@
-// import retry from "/icons/retry.svg";
-// import error from "/icons/error.svg";
-// import bgLarge from "/images/bg-today-large.svg";
+import React from "react";
+
 import "@/lib/day";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryErrorResetBoundary,
+} from "@tanstack/react-query";
 import WeatherSearch from "./components/WeatherSearch";
 import UnitsContextProvider from "./contexts/UnitsContext";
 import Header from "./components/Header";
+import ErrorFallback from "./components/ErrorFallback";
+// import bgLarge from "/images/bg-today-large.svg";
 
 const queryClient = new QueryClient();
 
 function App() {
+  const { reset } = useQueryErrorResetBoundary();
+
   return (
     <UnitsContextProvider>
       <QueryClientProvider client={queryClient}>
         <Header />
-        <WeatherSearch />
+        <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+          <WeatherSearch />
+        </ErrorBoundary>
       </QueryClientProvider>
     </UnitsContextProvider>
   );

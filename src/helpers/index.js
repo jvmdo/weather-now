@@ -27,7 +27,14 @@ export function buildDailyWeather(data) {
 }
 
 export function buildHourlyWeather(data) {
-  if (!data) return {};
+  if (!data) {
+    const [today] = buildDaysOfWeek();
+    return {
+      [today]: Array.from({ length: 24 }, () => ({
+        id: crypto.randomUUID(),
+      })),
+    };
+  }
 
   const { time, weather_code, temperature_2m } = data;
 
