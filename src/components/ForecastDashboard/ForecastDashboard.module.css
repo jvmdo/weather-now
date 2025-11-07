@@ -1,5 +1,20 @@
 .dashboard {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1440px) {
+  .dashboard {
+    grid-template-columns: 40fr 19fr;
+  }
+
+  .dashboard > :nth-child(2) {
+    order: 2;
+  }
+
+  .dashboard > :nth-child(3) {
+    order: 1;
+    grid-row: span 2;
+  }
 }

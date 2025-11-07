@@ -11,7 +11,6 @@ import WeatherSearch from "./components/WeatherSearch";
 import UnitsContextProvider from "./contexts/UnitsContext";
 import Header from "./components/Header";
 import ErrorFallback from "./components/ErrorFallback";
-// import bgLarge from "/images/bg-today-large.svg";
 
 const queryClient = new QueryClient();
 

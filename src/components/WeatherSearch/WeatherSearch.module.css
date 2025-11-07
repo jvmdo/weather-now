@@ -6,9 +6,9 @@
 
 .container h1 {
   font-family: "Bricolage Grotesque", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 3rem;
+  font-size: 3.25rem;
   text-align: center;
   padding-block-start: 2.5rem;
   padding-block-end: 1rem;
-  padding-inline: 2rem;
+  padding-inline: 1rem;
 }

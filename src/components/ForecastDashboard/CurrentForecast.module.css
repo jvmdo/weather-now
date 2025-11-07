@@ -6,9 +6,8 @@
 
 .hero {
   display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 1rem;
 
   border-radius: 1rem;
@@ -18,18 +17,19 @@
 
   background-image: url(/public/images/bg-today-small.svg);
   background-repeat: no-repeat;
-  background-size: cover 100%;
+  background-size: cover;
+  background-position: bottom;
 }
 
 .hero header {
-  flex: 3 1 300px;
+  flex: 5;
   text-align: center;
 }
 
 .hero header h2 {
-  font-size: 1.625rem;
-  line-height: 2;
+  font-size: 1.75rem;
   font-weight: 700;
+  padding-block-end: 0.5rem;
 }
 
 .hero header time {
@@ -38,26 +38,28 @@
 }
 
 .hero div {
-  flex: 1 1 100px;
+  flex: 3;
+  margin-inline: auto;
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  gap: 2rem;
 }
 
 .hero img {
-  width: 8rem;
+  width: clamp(5rem, -12.4545rem + 87.2727vw, 8rem);
 }
 
 .hero strong {
-  font-size: 6rem;
+  font-size: clamp(4rem, -7.6364rem + 58.1818vw, 6rem);
   font-weight: 600;
   font-style: italic;
 }
 
 .hero_skeleton {
   composes: hero;
-  align-items: center;
+  justify-content: center;
   background: var(--card-bg);
   color: var(--card-title);
   padding: 0;
@@ -84,7 +86,6 @@
   border-radius: 0.5rem;
   padding: 1.125rem;
   height: 7.5rem;
-  /* max-width: 11.25rem; */
 }
 
 .variables > div p {
@@ -112,5 +113,17 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    background-image: url(/public/images/bg-today-large.svg);
+    flex-direction: row;
+    padding-block: unset;
+  }
+
+  .hero header {
+    text-align: start;
   }
 }

@@ -7,3 +7,9 @@
 .header div img {
   height: 1.8rem;
 }
+
+@media (min-width: 1024px) {
+  .header div img {
+    height: 2.5rem;
+  }
+}

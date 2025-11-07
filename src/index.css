@@ -95,9 +95,19 @@ h6 {
 }
 
 body {
+  max-width: 112.5rem;
+  margin-inline: auto;
   min-width: 320px;
   min-height: 100vh;
   color: var(--text);
   background-color: var(--bg);
-  padding: 1rem;
+  padding-block: 1rem;
+  padding-inline: clamp(1rem, -1.1127rem + 9.0141vw, 7rem);
+}
+
+@media (min-width: 1024px) {
+  body {
+    padding-block-start: clamp(1rem, -2.6923rem + 5.7692vw, 2.5rem);
+    padding-block-end: clamp(1rem, -8.8462rem + 15.3846vw, 5rem);
+  }
 }
