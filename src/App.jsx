@@ -11,6 +11,7 @@ import WeatherSearch from "./components/WeatherSearch";
 import UnitsContextProvider from "./contexts/UnitsContext";
 import Header from "./components/Header";
 import ErrorFallback from "./components/ErrorFallback";
+import "./App.css";
 
 const queryClient = new QueryClient();
 
@@ -20,10 +21,12 @@ function App() {
   return (
     <UnitsContextProvider>
       <QueryClientProvider client={queryClient}>
-        <Header />
-        <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
-          <WeatherSearch />
-        </ErrorBoundary>
+        <div className="app-container">
+          <Header />
+          <ErrorBoundary FallbackComponent={ErrorFallback} onReset={reset}>
+            <WeatherSearch />
+          </ErrorBoundary>
+        </div>
       </QueryClientProvider>
     </UnitsContextProvider>
   );
