@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Autocomplete } from "@base-ui-components/react/autocomplete";
 import styles from "./SearchAutocomplete.module.css";
+import { fuzzyFilter } from "@/helpers";
 
 export default function SearchAutocomplete({
   searchTerms,
@@ -11,7 +12,9 @@ export default function SearchAutocomplete({
   isLoading,
   isEmpty,
   hasErrors,
+  shouldFilter,
 }) {
+  // TODO: Move to component, color grey
   let status = (
     <React.Fragment>{searchResults?.length ?? 0} results found.</React.Fragment>
   );
@@ -36,19 +39,22 @@ export default function SearchAutocomplete({
 
   const shouldRenderPopup = true;
 
+  // TODO If the next term is found in current list, do not make another request || do not filter by city
+  // Problemas:
+  // 4. Conflito entre filtragem local e filtragem da API: no results -> loading -> no results
   return (
     <Autocomplete.Root
       items={searchResults}
       value={searchTerms}
       onValueChange={setSearchTerms}
-      filter={null}
+      filter={shouldFilter ? fuzzyFilter : null}
       autoHighlight={true}
       alwaysSubmitOnEnter={true}
       required={true}
     >
       <Autocomplete.Input
-        placeholder="City, State, Country"
-        title="Search cities. For finer, include state and country separated by a comma."
+        placeholder="Xique-Xique, Bahia, Brazil"
+        title="Search by city names. For finer, include state and country separated by a comma."
         className={styles.input}
         autoFocus={true}
       />

@@ -1,62 +1,28 @@
 import React from "react";
 
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { useThrottledValue } from "@tanstack/react-pacer";
-import { extractLocationTerms, formatLocationTerms } from "@/helpers";
 import SearchAutocomplete from "./SearchAutocomplete";
 import styles from "./CitySearch.module.css";
-
-async function fetcher({ queryKey }) {
-  const [_, city] = queryKey;
-  const searchParams = {
-    format: "json",
-    language: "en",
-    count: "50",
-    name: city,
-  };
-  const params = new URLSearchParams(searchParams);
-  const endpoint = `https://geocoding-api.open-meteo.com/v1/search?${params.toString()}`;
-
-  const response = await fetch(endpoint);
-
-  if (!response.ok) {
-    throw new Error(await response.text());
-  }
-
-  const data = await response.json();
-  return data;
-}
+import useCities from "./useCities";
 
 function CitySearch({ setLocation }) {
-  const [searchTerms, setSearchTerms] = React.useState(
-    "Xique-Xique, Bahia, Brazil"
-  );
-  const isFetchEnabled = searchTerms.length > 1;
+  const [searchTerms, setSearchTerms] = React.useState("");
+
+  const hasComma = searchTerms.includes(","); // Searching for admin or country
+  const hasCityName = searchTerms.length > 1; // Min 2 characters (API rules)
 
   const [throttledSearchTerms] = useThrottledValue(searchTerms, {
-    wait: searchTerms.includes(",") ? 0 : 1000, // No throttle for local filtering
-    enabled: () => isFetchEnabled, // Prevent empty requests
+    wait: hasComma ? 0 : 1000, // No throttle for local filtering
+    enabled: () => hasCityName, // Prevent empty requests
   });
-  const isTyping = searchTerms.trim() !== throttledSearchTerms.trim();
 
-  const terms = extractLocationTerms(throttledSearchTerms);
-  const {
-    data: cities,
-    isPending,
-    error,
-  } = useQuery({
-    queryKey: ["cities", terms.name],
-    queryFn: fetcher,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    placeholderData: keepPreviousData,
-    select: (data) => {
-      const results = data?.results ?? [];
-      return results.map((city) => ({
-        value: city,
-        label: formatLocationTerms(city),
-      }));
-    },
-  });
+  const isTyping = searchTerms.trim() !== throttledSearchTerms.trim();
+  const isFetchEnabled = hasCityName && !hasComma;
+
+  const { cities, isPending, error } = useCities(
+    throttledSearchTerms,
+    isFetchEnabled
+  );
 
   const handleSelectedTerms = (city) => {
     setLocation({
@@ -79,7 +45,8 @@ function CitySearch({ setLocation }) {
           searchResults={cities}
           isLoading={isPending || isTyping}
           isEmpty={!isPending && cities.length === 0}
-          hasErrors={Boolean(error)}
+          hasErrors={!!error}
+          shouldFilter={hasComma} // Local filter for admin and country only
         />
         <button>Search</button>
       </form>
