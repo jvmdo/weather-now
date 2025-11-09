@@ -35,7 +35,7 @@ function CurrentForecast({ place, data, isLoading }) {
               {place[0]}, {place[1]}
             </h2>
             <time dateTime={data.time}>
-              {dayjs(data.time).format("dddd, MMM d, YYYY")}
+              {dayjs(data.time).format("dddd, MMM DD, YYYY")}
             </time>
           </header>
           <div>
