@@ -1,0 +1,32 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.wrapper {
+  color: var(--card-title);
+  font-size: small;
+  font-weight: lighter;
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.loading,
+.empty,
+.error,
+.found {
+  fill: white;
+  color: white;
+  width: 1rem;
+  height: 1rem;
+}
+
+.loading {
+  animation: spin 0.75s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
+}
