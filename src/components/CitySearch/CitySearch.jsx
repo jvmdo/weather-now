@@ -19,7 +19,7 @@ function CitySearch({ setLocation }) {
   const isTyping = searchTerms.trim() !== throttledSearchTerms.trim();
   const isFetchEnabled = hasCityName && !hasComma;
 
-  const { cities, isPending, error } = useCities(
+  const { cities, status, isFetching, isPlaceholderData } = useCities(
     throttledSearchTerms,
     isFetchEnabled
   );
@@ -35,6 +35,8 @@ function CitySearch({ setLocation }) {
     event.preventDefault();
   };
 
+  const isLoading = isFetching || (isTyping && isPlaceholderData);
+
   return (
     <search className={styles.search}>
       <form onSubmit={handleSubmit}>
@@ -43,9 +45,8 @@ function CitySearch({ setLocation }) {
           setSearchTerms={setSearchTerms}
           onItemSelect={handleSelectedTerms}
           searchResults={cities}
-          isLoading={isPending || isTyping}
-          isEmpty={!isPending && cities.length === 0}
-          hasErrors={!!error}
+          status={isLoading ? "pending" : status}
+          isEmpty={!isFetching && cities?.length === 0}
           shouldFilter={hasComma} // Local filter for admin and country only
         />
         <button>Search</button>

@@ -8,9 +8,8 @@ export default function SearchAutocomplete({
   setSearchTerms,
   onItemSelect,
   searchResults,
-  isLoading,
   isEmpty,
-  hasErrors,
+  status,
   shouldFilter,
 }) {
   return (
@@ -32,14 +31,12 @@ export default function SearchAutocomplete({
 
       <Autocomplete.Portal>
         <Autocomplete.Positioner align="end" sideOffset={8}>
-          <Autocomplete.Popup
-            className={styles.popup}
-            aria-busy={isLoading || undefined}
-          >
+          <Autocomplete.Popup className={styles.popup}>
             <Autocomplete.Status className={styles.status}>
               <SearchStatus
+                status={status}
+                isEmpty={isEmpty}
                 count={searchResults?.length}
-                states={{ isLoading, isEmpty, hasErrors }}
               />
             </Autocomplete.Status>
             <Autocomplete.List>

@@ -1,54 +1,43 @@
 import styles from "./SearchStatus.module.css";
 
-const SEARCH_STATUS = {
-  IDLE: "idle",
-  LOADING: "loading",
-  ERROR: "error",
-  EMPTY: "empty",
-  FOUND: "found",
-};
-
 const STATUS_CONFIG = {
-  [SEARCH_STATUS.LOADING]: {
+  pending: {
     name: "loading",
     icon: "loading",
     text: "Searching...",
   },
-  [SEARCH_STATUS.ERROR]: {
+  error: {
     name: "error",
     icon: "error",
     text: "Something went wrong. Please try again.",
   },
-  [SEARCH_STATUS.EMPTY]: {
+  empty: {
     name: "empty",
     icon: "search-x",
     text: "No results found.",
   },
-  [SEARCH_STATUS.FOUND]: {
+  success: {
     name: "found",
     icon: "search-check",
     text: (n) => `${n} result${n === 1 ? "" : "s"} found.`,
   },
 };
 
-function resolveSearchStatus({ isLoading, hasError, isEmpty }) {
-  if (isLoading) return STATUS_CONFIG[SEARCH_STATUS.LOADING];
-  if (hasError) return STATUS_CONFIG[SEARCH_STATUS.ERROR];
-  if (isEmpty) return STATUS_CONFIG[SEARCH_STATUS.EMPTY];
-  return STATUS_CONFIG[SEARCH_STATUS.FOUND];
+// Why not object lookup? Because statuses have priorities
+function resolveSearchStatus({ status, isEmpty }) {
+  if (status === "pending") return STATUS_CONFIG.pending;
+  if (status === "error") return STATUS_CONFIG.error;
+  if (isEmpty) return STATUS_CONFIG.empty;
+  return STATUS_CONFIG.success;
 }
 
-function SearchStatus({ states, count = 0 }) {
-  const { name, text, icon } = resolveSearchStatus(states);
+function SearchStatus({ status, isEmpty, count = 0 }) {
+  const { name, icon, text } = resolveSearchStatus({ status, isEmpty });
   const content = typeof text === "function" ? text(count) : text;
 
   return (
     <div className={styles.wrapper}>
-      <img
-        src={`/public/icons/${icon}.svg`}
-        className={styles[name]}
-        aria-hidden
-      />
+      <img src={`/icons/${icon}.svg`} className={styles[name]} aria-hidden />
       {content}
     </div>
   );

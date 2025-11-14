@@ -13,12 +13,12 @@ async function getCities({ queryKey }) {
   const endpoint = `https://geocoding-api.open-meteo.com/v1/search?${params.toString()}`;
 
   const response = await fetch(endpoint);
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(await response.text());
+    throw data;
   }
 
-  const data = await response.json();
   return data;
 }
 
