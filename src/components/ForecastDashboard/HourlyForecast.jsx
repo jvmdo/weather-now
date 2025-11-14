@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import useDaysOfWeek from "@/hooks/useDaysOfWeek";
+import useDaysOfWeek from "@/components/ForecastDashboard/useDaysOfWeek";
 import HourlyForecastSelect from "../HourlyForecastSelect";
 import { buildHourlyWeather } from "@/helpers";
 import styles from "./HourlyForecast.module.css";

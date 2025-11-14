@@ -1,7 +1,7 @@
 import { describe, beforeEach, afterEach, it, expect, vi } from "vitest";
 import { renderHook } from "@testing-library/react";
 import dayjs from "dayjs";
-import useDaysOfWeek from "@/hooks/useDaysOfWeek";
+import useDaysOfWeek from "@/components/ForecastDashboard/useDaysOfWeek";
 
 describe("useDaysOfWeek", () => {
   beforeEach(() => {
@@ -47,7 +47,7 @@ describe("useDaysOfWeek", () => {
   });
 
   it("respects custom daysCount", () => {
-    const { result } = renderHook(() => useDaysOfWeek("Tuesday", 3));
-    expect(result.current).toHaveLength(3);
+    const { result } = renderHook(() => useDaysOfWeek("Thursday", 4));
+    expect(result.current).toHaveLength(4);
   });
 });
