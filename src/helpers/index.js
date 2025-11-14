@@ -1,5 +1,5 @@
 import { weatherCodeToIcon } from "@/constants";
-import { arrayChunk, buildDaysOfWeek } from "@/utils";
+import { arrayChunk, buildDaysOfWeek, stripFalsy } from "@/utils";
 import dayjs from "dayjs";
 import { matchSorter } from "match-sorter";
 
@@ -95,3 +95,28 @@ export function fuzzyFilter(item, query) {
 
   return result.length > 0;
 }
+
+export const buildWeatherUrl = (latitude, longitude, unitValues) => {
+  const WEATHER_VARIABLES = {
+    current:
+      "temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,precipitation,apparent_temperature",
+    daily: "weather_code,temperature_2m_max,temperature_2m_min",
+    hourly: "temperature_2m,weather_code",
+    timezone: "auto",
+  };
+
+  const searchParams = stripFalsy({
+    latitude,
+    longitude,
+    wind_speed_unit: unitValues.windSpeed,
+    temperature_unit: unitValues.temperature,
+    precipitation_unit: unitValues.precipitation,
+    ...WEATHER_VARIABLES,
+  });
+
+  const url =
+    "https://api.open-meteo.com/v1/forecast?" +
+    new URLSearchParams(searchParams);
+
+  return url;
+};
