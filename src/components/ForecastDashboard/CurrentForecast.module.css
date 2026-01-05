@@ -61,7 +61,6 @@
 .hero_skeleton {
   composes: hero;
   justify-content: center;
-  background: var(--card-bg);
   color: var(--card-title);
   padding: 0;
   position: relative;
@@ -127,4 +126,8 @@
   .hero header {
     text-align: start;
   }
+
+  /* .hero_skeleton {
+    composes: hero;
+  } */
 }
