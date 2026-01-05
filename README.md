@@ -1,22 +1,25 @@
-# Frontend Mentor - Weather app
+# Frontend Mentor - Weather app solution
 
-![Design preview for the Weather app coding challenge](./preview.jpg)
+This is a solution to the [Weather app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/weather-app-K1FhddVm49). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-## Welcome! 👋
+## Table of contents
 
-Thanks for checking out this coding challenge.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screencast](#screencast)
+  - [Live preview](#live-preview)
+- [My process](#my-process)
+  - [Step-by-step](#step-by-step)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Remaining questions](#remaining-questions)
+  - [Useful resources](#useful-resources)
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects.
+## Overview
 
-**To do this challenge, you need a good understanding of HTML, CSS, and JavaScript.**
+### The challenge
 
-## The challenge
-
-Build a weather app using the [Open-Meteo API](https://open-meteo.com/) and get it looking as close to the design as possible.
-
-You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
-
-Your users should be able to:
+Users should be able to:
 
 - Search for weather information by entering a location in the search bar
 - View current weather conditions including temperature, weather icon, and location details
@@ -25,80 +28,138 @@ Your users should be able to:
 - View an hourly forecast showing temperature changes throughout the day
 - Switch between different days of the week using the day selector in the hourly forecast section
 - Toggle between Imperial and Metric measurement units via the units dropdown
+- Switch between specific temperature units (Celsius and Fahrenheit) and measurement units for wind speed (km/h and mph) and precipitation (millimeters) via the units dropdown
 - View the optimal layout for the interface depending on their device's screen size
 - See hover and focus states for all interactive elements on the page
 
-## Getting started
+#### Beyond the challenge
 
-### What's included
+- Local filtering results by city/country
 
-Your task is to build out the project to the designs inside the `/design` folder. You will find both a mobile and a desktop version of the design.
+### Screencast
 
-**In your download:**
+![Another one bites the dust](./screencast.gif)
 
-- Mobile and desktop designs (JPG format)
-- All required assets in the `/assets` folder
-- Variable and static font files (or link to Google Fonts)
-- `style-guide.md` with colors, fonts, and other design specs
+### Live preview
 
-**Want more accurate builds?** The designs are in JPG static format, which means you'll need to use your best judgment for styles such as `font-size`, `padding`, and `margin`. If you'd like the Figma design file to help build a more accurate solution faster, you can [subscribe as a PRO member](https://www.frontendmentor.io/pro).
+- Live Site URL: [Weather Now live on Netlify](https://weather-now-jvmdo.netlify.app/)
+- Solution URL: [Solution on Frontend Mentor](https://www.frontendmentor.io/solutions/search-input-using-autocomplete-component-with-filtering-RXUDZEj2nt)
 
-### API setup
+## My process
 
-This project uses the [Open-Meteo API](https://open-meteo.com/) to fetch weather data.
+### Step by step
 
-**Good news:** Open-Meteo is completely free and doesn't require an API key! You can start making requests right away.
+1. Define theme tokens. For that, you need to match the provided colors and the colors in design. Use a color picker tool.
+    - Terrible task! It took me almost 2 hours. Frankly...
 
-- **API Documentation:** [https://open-meteo.com/en/docs](https://open-meteo.com/en/docs)
-- **No rate limits** for reasonable personal use
-- Example endpoint: `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current_weather=true`
+2. Init Vite project, setup absolute imports and editor support
 
-Check their documentation for all available weather parameters and location search capabilities.
+3. How to use local fonts in Vite? What is that "i" in font weight? Setup fonts
+    - Well... I ignored variable fonts
 
-## Building your project
+4. Basic markup
+    - Including dedicated components (select, search field)
+  
+5. Search feature: geocoding
+    - Understanding how `cmdk` works
+    - Implementing own filtering logic using Fuse.js
+    - Integrate Tanstack Query
+    - Throttle input
+    - Small refactoring
+    - Change to Autocomplete component after spending hours on `cmdk` because you finally realized it is not the right tool for the job
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+6. Search feature: weather data
+    - Set query for weather data based on lat/lng returned from city search
+    - SRP components: search and dashboard
+    - Display data
+      - Set place (city, country) callback
+      - Hourly and daily map builders
+      - Weather code mapper
+    - Dynamic units through context
+    - Componentization
 
-1. Initialize your project as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/).
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+7. Styling
+    - Default
+    - Loading and error
+    - Mobile-first workflow
+    - Responsiveness
 
-**Need help?** [Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+8. Make sure everything is working as expected. If don't, fix them.
 
-## Deploying your project
+### Built with
 
-As mentioned above, there are many ways to host your project for free. Our recommended hosts are:
+- React.js
+- Tanstack Query
+- Tanstack Pacer
+- Radix UI
+- Base UI
+- match-sorter
+- day.js
+- react-error-boundary
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+### What I learned
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://medium.com/frontend-mentor/frontend-mentor-trusted-hosting-providers-bf000dfebe).
+- Setup static variables in Vite is dead simple: place them under public, declare `@font-face{}` and use by their set family name
+  - `@font-face{}`'s `url format()` issue. I had to remove this declaration
 
-## Submitting your solution
+- `cmdk`'s `useCommandState` should return what you want, NOT what you need to derive what you want. Perform calculations inside the hook, then return the result.
 
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://medium.com/frontend-mentor/a-complete-guide-to-submitting-solutions-on-frontend-mentor-ac6384162248) for tips on how to do this.
+- Tanstack Query will refetch an already cached key on mount because `staleTime=0` by default.
 
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
+- How to throttle user input. Tanstack Pacer comes to rescue for that. `useThrottledValue` and friends are handy!
+  - It's even possible to dynamically turn off wait time or completely disable the hook during render. Setting `wait` to `0` will turn throttling off, which means the hook returns on every key stroke; setting `enabled` to `false` will halt the hook, which means it will not return.
 
-**We strongly recommend overwriting this `README.md` with a custom one.** We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code. The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings.
+- Muitos dos problemas que tive durante a implementação do componente de busca provavelmente se deve ao fato de eu ter duas filtragens: a primeira feita pela API; a segunda, localmente. Por exemplo, a sequência de estados `vazio -> loading -> vazio`. Minha suposição é que o primeiro vazio é local enquanto o segundo é da API. Encontrar localmente e ainda sim recarregar a lista após resposta da API não é um bom UX.
+  - Talvez integrar a filtragem local com o recurso otimista do Tanstack Query?
 
-## Sharing your solution
+- `useQuery` structural sharing: references to `data` will not change unless the fetcher function returns a different JSON. `data` is a safe dependency for memoization.
 
-There are multiple places you can share your solution:
+- Remember: CSS modules only scope classes, not elements!
 
-1. Submit it on the platform and share your solution page in the **#finished-projects** channel of our [community](https://www.frontendmentor.io/community)
-2. Tweet [@frontendmentor](https://twitter.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in the tweet. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on other social channels like LinkedIn.
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
+- Maybe reset focus border is a good idea. Then set your customs not in hover.
 
-## Got feedback for us?
+- Remember: `:first-child` pseudo-class targets the element itself, not its children. If you want to select the first child, you should space like `div :first-child`
 
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
+- `cmdk`'s `item` value should be a string otherwise won't work.
 
-**This challenge is completely free. Please share it with anyone who will find it useful for practice.**
+- Remember: `position: absolute` keep the element where it would be, but it will no longer occupy space since it is taken out of the regular flow. However, the absolute child is still within its parent. In cases where parents are flex/grid, its absolute child will be under those layouts! It is even possible to `order` absolute flex items!!!
 
-**Have fun building!** 🚀
+- Don't lose your mind dealing with sizes: some property is same on both mobile and desktop? Set this shit explicitly!!!
+
+- getQueryFodase retorna o valor na render e apenas, sem notificar sobre futuras mudanças. Para notificações, use QueryObserver + userQueryClient + useEffect
+
+- Query will cause `react-error-boundary` to create an infinite loop if `throwOnError` is `true` because query will thrown on every render after the first error. Then, boundary will retry again... Tanstack provide a component and a hook to reset the error state of queries.
+
+- Do not apply global layout styles in `body` otherwise overlay components will be buggy. It happened that `popover` were messing with the app padding previously set on `body`. Same for `#root`. Use the app wrapper instead.
+
+- Combobox = Select with text filter. cmdk = fancy combobox. Autocomplete = Input for free-form text. Autocomplete is the ideal component for searching form.
+
+- Be careful with Dayjs tokens...
+
+- THROTTLE DESVINCULA O QUE a ação do usuário e o estado monitorado pelo período de tempo determinado. Ou seja, durante esse período, o estado do input não é o mesmo do valor monitorado. Isso me causou muitos problemas na renderização da lista de resultados e dos estados (loading, empty, error). A solução foi criar a flag `isTyping = searchTerm !== throttledSearchTerm`. E daí, derivar o `isLoading = isTyping | isPending`. Isso resolveu o empty e blank glicth no autocomplete. Both `leading` and `trailing` properties should be `true` otherwise `isTyping` will never be.
+
+- Muito cuidado com `placeholderData (keepPreviousData)`. Essa porra não é ativada por padrão e me causou MUITOS PROBLEMAS. `data` é `undefined` enquanto um novo fetch é feito. Por isso, a lista de resultados some enquanto `loading`.
+
+- `status` won't be `pending` after first fetch if there is `placeholderData`. `isPending` if only if there is no cached data. In those cases, use `isFetching` instead.
+
+### Remaining questions
+
+- Como identificar termos na string de busca sem acabar com UX e DX? Não acredito ser boa prática depender do input correto do usuário (no caso, separar termos por vírgula), mas é o que tá feito aí.
+
+- Why the heck there is an empty state flickering if I do not disabled throttle?
+
+  ```js
+  const [throttledSearchTerm] = useThrottledValue(searchTerm, {
+      wait: searchTerm.includes(",") ? 0 : 1000, // Disabled for local filtering
+      enabled: () => isFetchEnabled, // Prevent empty state flashing *why?*
+    });
+  ```
+
+- Ways of clamping or reducing font size in hero title based on available space?
+
+- Why filtering does not work for the first search? Everything is fine from 2nd on.
+  - I think `isPlaceholderData && isTyping` fixed that!
+
+### Useful resources
+
+- [Never call `new Date()` inside your components](https://kyleshevlin.com/never-call-new-date-inside-your-components) - Otherwise you will break its purity.
